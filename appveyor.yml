@@ -7,12 +7,8 @@ configuration: Release
 
 platform: x64
 
-for:
-  matrix:
-    only:
-      - image: Visual Studio 2017
-  environment:
-    VCPKG_ROOT: C:\tools\vcpkg
+environment:
+  VCPKG_ROOT: C:\tools\vcpkg
 
 build_script:
   - cmd: vcpkg install libuv
