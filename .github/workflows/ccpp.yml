@@ -17,7 +17,7 @@ jobs:
       run: |
         mkdir build 
         cd build 
-        cmake $env:GITHUB_WORKSPACE -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+        cmake $env:GITHUB_WORKSPACE -DCMAKE_GENERATOR_PLATFORM=Win32 -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
     - name: Build
       run: cmake --build .
     - name: Tests
