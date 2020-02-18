@@ -3,18 +3,22 @@ name: uvtls CI
 on: [push]
 
 jobs:
-  build-ubuntu:
+  build-windows:
 
-    runs-on: ubuntu-latest
-    
+    runs-on: windows-latest
+
     steps:
     - uses: actions/checkout@v1
     - name: dependencies
-      run: sudo apt-get install libuv1-dev
+      run: vcpkg install libuv openssl-windows
     - name: configure
-      run: mkdir build && cd build && cmake ..
+      run: |
+        mkdir build 
+        cd build 
+        cmake .. -G "Visual Studio 15 2017" -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake
     - name: build
       run: cmake --build build
     - name: tests
-      run: cd build && ./tests/test-uvtls
-
+      run: |
+        cd build 
+        ./tests/test-uvtls
