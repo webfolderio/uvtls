@@ -11,6 +11,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: configure
       run: |
+        dir
         mkdir build 
         cd build 
         cmake .. -G "Visual Studio 15 2017" -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake
