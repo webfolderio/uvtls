@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build-windows:
-
     runs-on: windows-latest
 
 steps:
@@ -14,7 +13,7 @@ steps:
         mkdir build 
         cd build 
         cmake $env:GITHUB_WORKSPACE -G"Visual Studio 15 2017" -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
-- name: build
+    - name: build
       run: cmake --build build
     - name: tests
       run: |
