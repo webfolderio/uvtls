@@ -11,14 +11,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: configure
+    - name: Install deps vcpkg
+      run: vcpkg install libuv openssl-windows
+    - name: Configure cmake
       run: |
         mkdir build 
         cd build 
         cmake $env:GITHUB_WORKSPACE -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
-    - name: build
-      run: cmake --build build
-    - name: tests
+    - name: Build
+      run: cmake --build .
+    - name: Tests
       run: |
         cd build 
         ./tests/test-uvtls
