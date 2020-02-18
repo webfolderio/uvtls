@@ -1,13 +1,18 @@
+  
 name: uvtls CI
 
 on: [push]
 
 jobs:
+
   build-windows:
+
     runs-on: windows-latest
 
-steps:
+    steps:
     - uses: actions/checkout@v1
+    - name: dependencies
+      run: vcpkg install libuv openssl-windows
     - name: configure
       run: |
         mkdir build 
@@ -19,4 +24,3 @@ steps:
       run: |
         cd build 
         ./tests/test-uvtls
-
