@@ -22,6 +22,17 @@
 #include "test.h"
 #include "uvtls.h"
 
+#ifdef _MSC_VER
+  _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE); 
+  _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR); 
+  
+  _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE); 
+  _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR); 
+  
+  _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE); 
+  _CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR); 
+#endif
+
 TEST_CASE_EXTERN(ring_buf);
 TEST_CASE_EXTERN(client);
 
