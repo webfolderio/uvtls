@@ -7,17 +7,14 @@ jobs:
 
     runs-on: windows-latest
 
-    env:
-      VCPKG_ROOT: C:\vcpkg
-    steps:
+steps:
     - uses: actions/checkout@v1
     - name: configure
       run: |
-        where vcpkg.exe
         mkdir build 
         cd build 
-        cmake -G"Visual Studio 15 2017" -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake ..
-    - name: build
+        cmake $env:GITHUB_WORKSPACE -G"Visual Studio 15 2017" -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+- name: build
       run: cmake --build build
     - name: tests
       run: |
