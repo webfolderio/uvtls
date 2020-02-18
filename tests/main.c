@@ -24,12 +24,13 @@
 
 #if defined(_MSC_VER) && defined(_DEBUG)
 #include <crtdbg.h>
-void disable_alert_popup() {
+void redirect_error_to_console() {
   // disable the "application crashed" popup
   SetErrorMode(SEM_FAILCRITICALERRORS |
-			   SEM_NOGPFAULTERRORBOX |
+               SEM_NOGPFAULTERRORBOX |
                SEM_NOOPENFILEERRORBOX);
 
+  // redirect assert, error and warning messages to console
   _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
   _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);
   _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
@@ -37,7 +38,7 @@ void disable_alert_popup() {
   _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
   _CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR);
 
-  // disable stdio output buffering
+  // disable stdio & stderr output buffering
   setvbuf(stdout, NULL, _IONBF, 0);
   setvbuf(stderr, NULL, _IONBF, 0);
 }
@@ -54,7 +55,7 @@ TEST_SUITE_END()
 
 int main(int argc, char** argv) {
   #if defined(_MSC_VER) && defined(_DEBUG)
-    disable_alert_popup();
+    redirect_error_to_console();
   #endif
-	return TEST_RUN_SUITE(uvtls, argc, argv);
+  return TEST_RUN_SUITE(uvtls, argc, argv);
 }
