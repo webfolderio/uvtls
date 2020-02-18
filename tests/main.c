@@ -24,12 +24,23 @@
 
 #if defined(_MSC_VER) && defined(_DEBUG)
 #include <crtdbg.h>
-_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
-_CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);
-_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
-_CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
-_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
-_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR);
+void disable_alert_popup() {
+  // disable the "application crashed" popup
+  SetErrorMode(SEM_FAILCRITICALERRORS |
+			   SEM_NOGPFAULTERRORBOX |
+               SEM_NOOPENFILEERRORBOX);
+
+  _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
+  _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);
+  _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
+  _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
+  _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
+  _CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR);
+
+  // disable stdio output buffering
+  setvbuf(stdout, NULL, _IONBF, 0);
+  setvbuf(stderr, NULL, _IONBF, 0);
+}
 #endif
 
 TEST_CASE_EXTERN(ring_buf);
@@ -42,5 +53,8 @@ TEST_SUITE_BEGIN(uvtls)
 TEST_SUITE_END()
 
 int main(int argc, char** argv) {
-  return TEST_RUN_SUITE(uvtls, argc, argv);
+  #if defined(_MSC_VER) && defined(_DEBUG)
+    disable_alert_popup();
+  #endif
+	return TEST_RUN_SUITE(uvtls, argc, argv);
 }
