@@ -9,8 +9,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: dependencies
-      run: vcpkg install libuv openssl-windows
     - name: configure
       run: |
         mkdir build 
